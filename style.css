@@ -454,16 +454,16 @@ body {
 
 /* Clean white document style */
 .letter-card {
+  font-family: 'Nanum Myeongjo', serif;
   background: #FFFFFF;
-  border: 1px solid #D0D0D0;
-  border-radius: 4px;
-  padding: 48px 32px 40px;
+  border: 1px solid #C0C0C0;
+  border-radius: 0;
+  padding: 48px 36px 40px;
   margin-bottom: 32px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  aspect-ratio: auto;
-  min-height: 520px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+  min-height: 560px;
   display: flex;
   flex-direction: column;
 }
@@ -471,23 +471,25 @@ body {
 .letter-header {
   text-align: center;
   margin-bottom: 0;
+  padding-top: 8px;
   position: relative;
   z-index: 1;
 }
 
 .letter-title {
-  font-size: 32px;
-  font-weight: 800;
+  font-family: 'Nanum Myeongjo', serif;
+  font-size: 30px;
+  font-weight: 700;
   color: #1A1A1A;
-  letter-spacing: 0.5em;
+  letter-spacing: 0.55em;
   margin-bottom: 0;
-  padding-right: -0.5em;
+  text-indent: 0.55em;
 }
 
 .letter-divider-top {
   height: 1px;
-  background: #1A1A1A;
-  margin: 20px 0 32px;
+  background: #333333;
+  margin: 24px 0 36px;
 }
 
 .letter-body {
@@ -499,8 +501,9 @@ body {
 }
 
 .letter-body-text {
-  font-size: 16px;
-  font-weight: 400;
+  font-family: 'Nanum Myeongjo', serif;
+  font-size: 17px;
+  font-weight: 700;
   color: #1A1A1A;
   line-height: 1.8;
 }
@@ -515,15 +518,16 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 120px;
-  padding: 24px 0;
+  min-height: 140px;
+  padding: 24px 8px;
 }
 
 .letter-reason-text {
+  font-family: 'Nanum Myeongjo', serif;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 400;
   color: #333333;
-  line-height: 1.8;
+  line-height: 2;
   text-align: center;
   word-break: keep-all;
   overflow-wrap: break-word;
@@ -531,16 +535,17 @@ body {
 
 .letter-date-section {
   text-align: center;
-  margin: 24px 0 40px;
+  margin: 28px 0 48px;
   position: relative;
   z-index: 1;
 }
 
 .letter-date {
+  font-family: 'Nanum Myeongjo', serif;
   font-size: 15px;
   font-weight: 400;
   color: #1A1A1A;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.2em;
 }
 
 .letter-footer {
@@ -559,16 +564,17 @@ body {
 }
 
 .letter-footer-label {
+  font-family: 'Nanum Myeongjo', serif;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
   color: #1A1A1A;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.2em;
 }
 
 .letter-footer-right {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 20px;
 }
 
 .signature-img {
@@ -576,11 +582,11 @@ body {
   height: auto;
   max-height: 64px;
   object-fit: contain;
-  /* Invert white signature to show on white paper */
   filter: invert(1) brightness(0.15);
 }
 
 .letter-seal {
+  font-family: 'Nanum Myeongjo', serif;
   font-size: 16px;
   font-weight: 400;
   color: #1A1A1A;
