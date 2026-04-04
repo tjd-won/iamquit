@@ -147,17 +147,26 @@
         <div id="resignationLetter" class="letter-card">
           <div class="letter-header">
             <h2 class="letter-title">사 직 서</h2>
+          </div>
+          <div class="letter-divider letter-divider-top"></div>
+          <div class="letter-body">
+            <p class="letter-body-text"><span class="letter-bold">상기 본인은</span></p>
+            <div class="letter-reason-area">
+              <p class="letter-reason-text" id="letterReason"></p>
+            </div>
+            <p class="letter-body-text"><span class="letter-bold">사유로 사직서를 제출합니다</span></p>
+          </div>
+          <div class="letter-date-section">
             <p class="letter-date" id="letterDate"></p>
           </div>
-          <div class="letter-reason-block">
-            <span class="letter-reason-label">퇴사 사유</span>
-            <p class="letter-reason-text" id="letterReason"></p>
-          </div>
-          <div class="letter-divider"></div>
-          <p class="letter-statement">위와 같은 사유로 사직하고자 하오니<br>허락하여 주시기 바랍니다.</p>
-          <div class="letter-signature">
-            <span class="signature-label">서명</span>
-            <img id="signatureImage" class="signature-img" alt="서명">
+          <div class="letter-footer">
+            <div class="letter-footer-left">
+              <span class="letter-footer-label">위 본인</span>
+            </div>
+            <div class="letter-footer-right">
+              <img id="signatureImage" class="signature-img" alt="서명">
+              <span class="letter-seal">(인)</span>
+            </div>
           </div>
           <div class="letter-stamp">승인완료</div>
         </div>

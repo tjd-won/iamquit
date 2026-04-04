@@ -451,7 +451,7 @@ function generateResult() {
   const year = now.getFullYear();
   const month = String(now.getMonth() + 1).padStart(2, '0');
   const day = String(now.getDate()).padStart(2, '0');
-  letterDate.textContent = `${year}년 ${month}월 ${day}일`;
+  letterDate.textContent = `${year}년   ${month}월   ${day}일`;
 
   // Reason — translate to formal
   letterReason.textContent = translateReason(reasonInput.value);
