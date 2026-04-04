@@ -463,14 +463,13 @@ body {
   position: relative;
   overflow: hidden;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
-  min-height: 560px;
   display: flex;
   flex-direction: column;
 }
 
 .letter-header {
   text-align: center;
-  margin-bottom: 0;
+  margin-bottom: 28px;
   padding-top: 8px;
   position: relative;
   z-index: 1;
@@ -502,36 +501,46 @@ body {
 
 .letter-body-text {
   font-family: 'Nanum Myeongjo', serif;
-  font-size: 17px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 400;
   color: #1A1A1A;
   line-height: 1.8;
 }
 
-.letter-bold {
-  font-weight: 700;
-  font-size: 17px;
-}
-
 .letter-reason-area {
-  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 140px;
-  padding: 24px 8px;
+  padding: 20px 16px;
+  border: 1px solid #1A1A1A;
+  margin: 12px 0;
+}
+
+.letter-reason-wrap {
+  text-align: center;
 }
 
 .letter-reason-text {
   font-family: 'Nanum Myeongjo', serif;
-  font-size: 16px;
-  font-weight: 400;
-  color: #333333;
-  line-height: 2;
-  text-align: center;
+  font-size: 17px;
+  font-weight: 800;
+  color: #1A1A1A;
+  line-height: 1.8;
   word-break: keep-all;
   overflow-wrap: break-word;
 }
+
+.letter-reason-original {
+  font-family: 'Nanum Myeongjo', serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #999999;
+  line-height: 1.6;
+  margin-top: 6px;
+}
+
+
+
 
 .letter-date-section {
   text-align: center;
@@ -550,9 +559,9 @@ body {
 
 .letter-footer {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
-  margin-top: auto;
+  margin-top: 24px;
   padding-top: 16px;
   position: relative;
   z-index: 1;
@@ -566,7 +575,7 @@ body {
 .letter-footer-label {
   font-family: 'Nanum Myeongjo', serif;
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 400;
   color: #1A1A1A;
   letter-spacing: 0.2em;
 }
@@ -592,35 +601,13 @@ body {
   color: #1A1A1A;
 }
 
-.letter-stamp {
-  position: absolute;
-  bottom: 80px;
-  left: 32px;
-  width: 72px;
-  height: 72px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  font-weight: 900;
-  color: #C0392B;
-  border: 3px solid #C0392B;
-  border-radius: 50%;
-  transform: rotate(-18deg);
-  opacity: 0.85;
-  letter-spacing: 0.08em;
-  z-index: 2;
-  box-shadow: 
-    inset 0 0 0 2px rgba(192, 57, 43, 0.25),
-    inset 0 0 8px rgba(192, 57, 43, 0.1),
-    0 0 6px rgba(192, 57, 43, 0.15);
-  background: radial-gradient(
-    circle at 30% 30%,
-    rgba(192, 57, 43, 0.06) 0%,
-    transparent 60%
-  );
-  text-shadow: 0 0 1px rgba(192, 57, 43, 0.4);
+.letter-name {
+  font-family: 'Nanum Myeongjo', serif;
+  font-weight: 700;
+  margin-left: 4px;
 }
+
+
 
 /* ===== Share Section ===== */
 .share-section {

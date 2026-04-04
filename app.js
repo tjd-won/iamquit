@@ -6,6 +6,7 @@ const stepLoading = document.getElementById('stepLoading');
 const step3 = document.getElementById('step3');
 
 const reasonInput = document.getElementById('reason');
+const nameInput = document.getElementById('nameInput');
 const charCount = document.getElementById('charCount');
 const toStep2Btn = document.getElementById('toStep2');
 const backToStep1FromTranslation = document.getElementById('backToStep1FromTranslation');
@@ -98,6 +99,14 @@ requestAnimationFrame(() => {
 });
 
 // ===== Step 1: Reason Input =====
+function updateStep1Button() {
+  const hasName = nameInput.value.trim().length > 0;
+  const hasReason = reasonInput.value.trim().length > 0;
+  toStep2Btn.disabled = !(hasName && hasReason);
+}
+
+nameInput.addEventListener('input', updateStep1Button);
+
 reasonInput.addEventListener('input', () => {
   const len = reasonInput.value.length;
   charCount.textContent = len;
@@ -110,8 +119,7 @@ reasonInput.addEventListener('input', () => {
     charCountEl.classList.remove('near-limit');
   }
 
-  // Enable/disable next button
-  toStep2Btn.disabled = len === 0;
+  updateStep1Button();
 });
 
 toStep2Btn.addEventListener('click', () => {
@@ -456,6 +464,14 @@ function generateResult() {
   // Reason — translate to formal
   letterReason.textContent = translateReason(reasonInput.value);
 
+  // Original reason in parentheses
+  const letterReasonOriginal = document.getElementById('letterReasonOriginal');
+  letterReasonOriginal.textContent = `(${reasonInput.value.trim()})`;
+
+  // Name
+  const letterName = document.getElementById('letterName');
+  letterName.textContent = nameInput.value.trim();
+
   // Signature image
   signatureImage.src = canvas.toDataURL('image/png');
 }
@@ -533,6 +549,7 @@ function copyToClipboard() {
 
 // ===== Restart =====
 restartBtn.addEventListener('click', () => {
+  nameInput.value = '';
   reasonInput.value = '';
   charCount.textContent = '0';
   toStep2Btn.disabled = true;
