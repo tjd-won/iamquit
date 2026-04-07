@@ -499,7 +499,7 @@ async function captureLetterImage() {
   try {
     // html2canvas로 사직서 캡처 (signatureImage <img> 는 숨기고 캡처)
     const resultCanvas = await html2canvas(letterEl, {
-      backgroundColor: '#FFFEF5',
+      backgroundColor: '#FFFFFF',
       scale: 2,
       useCORS: true,
       allowTaint: true,
@@ -507,7 +507,7 @@ async function captureLetterImage() {
       ignoreElements: (el) => el.id === 'signatureImage'
     });
 
-    // 서명이 있으면 직접 합성
+    // 서명이 있으면 직접 합성 (CSS filter: invert(1) 효과를 Canvas API로 재현)
     if (hasDrawn) {
       const scale = 2;
       const letterRect = letterEl.getBoundingClientRect();
@@ -518,9 +518,23 @@ async function captureLetterImage() {
       const w = sigImgRect.width * scale;
       const h = sigImgRect.height * scale;
 
+      // 흰색 서명 획 → 검정색으로 변환 (CSS filter: invert(1) brightness(0.15) 재현)
+      const tempCanvas = document.createElement('canvas');
+      tempCanvas.width = sigCanvasEl.width;
+      tempCanvas.height = sigCanvasEl.height;
+      const tempCtx = tempCanvas.getContext('2d');
+
+      // 1) 목표 색(어두운 색)으로 채우기
+      tempCtx.fillStyle = '#1A1A1A';
+      tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+
+      // 2) destination-in: 서명 획이 있는(불투명한) 영역만 남기기
+      tempCtx.globalCompositeOperation = 'destination-in';
+      tempCtx.drawImage(sigCanvasEl, 0, 0);
+
+      // 3) 변환된 서명을 결과 캔버스에 합성
       const resultCtx = resultCanvas.getContext('2d');
-      // 서명 캔버스를 결과 이미지에 직접 그림
-      resultCtx.drawImage(sigCanvasEl, x, y, w, h);
+      resultCtx.drawImage(tempCanvas, x, y, w, h);
     }
 
     return resultCanvas;
