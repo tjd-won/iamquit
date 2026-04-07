@@ -591,7 +591,6 @@ body {
   height: auto;
   max-height: 64px;
   object-fit: contain;
-  filter: invert(1) brightness(0.15);
 }
 
 .letter-seal {

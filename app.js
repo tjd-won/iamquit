@@ -35,6 +35,7 @@ let isDrawing = false;
 let hasDrawn = false;
 let lastX = 0;
 let lastY = 0;
+let darkSignatureDataURL = null; // 다운로드용 dark 변환 서명
 
 // ===== Submission Counter =====
 const COUNTER_BASE = 2847; // 시작 기본값 (사회적 증거 효과)
@@ -472,8 +473,23 @@ function generateResult() {
   const letterName = document.getElementById('letterName');
   letterName.textContent = nameInput.value.trim();
 
-  // Signature image
-  signatureImage.src = canvas.toDataURL('image/png');
+  // Signature image: 흰색 획 → 검정색으로 즉시 변환 후 저장
+  // (step2 캔버스가 살아있는 지금 변환해야 신뢰할 수 있음)
+  if (hasDrawn) {
+    const tmpC = document.createElement('canvas');
+    tmpC.width = canvas.width;
+    tmpC.height = canvas.height;
+    const tmpCtx = tmpC.getContext('2d');
+    tmpCtx.fillStyle = '#1A1A1A';
+    tmpCtx.fillRect(0, 0, tmpC.width, tmpC.height);
+    tmpCtx.globalCompositeOperation = 'destination-in';
+    tmpCtx.drawImage(canvas, 0, 0);
+    darkSignatureDataURL = tmpC.toDataURL('image/png');
+    signatureImage.src = darkSignatureDataURL;
+  } else {
+    darkSignatureDataURL = null;
+    signatureImage.src = '';
+  }
 }
 
 // ===== Sharing =====
@@ -495,9 +511,8 @@ function showToast(message) {
 // Capture letter as image
 async function captureLetterImage() {
   const letterEl = document.getElementById('resignationLetter');
-  const sigCanvasEl = document.getElementById('signatureCanvas');
   try {
-    // html2canvas로 사직서 캡처 (signatureImage <img> 는 숨기고 캡처)
+    // html2canvas로 사직서 캡처 (signatureImage <img> 는 무시하고 직접 합성)
     const resultCanvas = await html2canvas(letterEl, {
       backgroundColor: '#FFFFFF',
       scale: 2,
@@ -507,8 +522,8 @@ async function captureLetterImage() {
       ignoreElements: (el) => el.id === 'signatureImage'
     });
 
-    // 서명이 있으면 직접 합성 (CSS filter: invert(1) 효과를 Canvas API로 재현)
-    if (hasDrawn) {
+    // generateResult()에서 미리 변환해둔 dark 서명을 Image 객체로 합성
+    if (darkSignatureDataURL) {
       const scale = 2;
       const letterRect = letterEl.getBoundingClientRect();
       const sigImgRect = signatureImage.getBoundingClientRect();
@@ -518,23 +533,15 @@ async function captureLetterImage() {
       const w = sigImgRect.width * scale;
       const h = sigImgRect.height * scale;
 
-      // 흰색 서명 획 → 검정색으로 변환 (CSS filter: invert(1) brightness(0.15) 재현)
-      const tempCanvas = document.createElement('canvas');
-      tempCanvas.width = sigCanvasEl.width;
-      tempCanvas.height = sigCanvasEl.height;
-      const tempCtx = tempCanvas.getContext('2d');
-
-      // 1) 목표 색(어두운 색)으로 채우기
-      tempCtx.fillStyle = '#1A1A1A';
-      tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
-
-      // 2) destination-in: 서명 획이 있는(불투명한) 영역만 남기기
-      tempCtx.globalCompositeOperation = 'destination-in';
-      tempCtx.drawImage(sigCanvasEl, 0, 0);
-
-      // 3) 변환된 서명을 결과 캔버스에 합성
-      const resultCtx = resultCanvas.getContext('2d');
-      resultCtx.drawImage(tempCanvas, x, y, w, h);
+      await new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => {
+          resultCanvas.getContext('2d').drawImage(img, x, y, w, h);
+          resolve();
+        };
+        img.onerror = resolve;
+        img.src = darkSignatureDataURL;
+      });
     }
 
     return resultCanvas;
