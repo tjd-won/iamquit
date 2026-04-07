@@ -495,21 +495,34 @@ function showToast(message) {
 // Capture letter as image
 async function captureLetterImage() {
   const letterEl = document.getElementById('resignationLetter');
+  const sigCanvasEl = document.getElementById('signatureCanvas');
   try {
-    // 서명 이미지가 완전히 로드될 때까지 기다림
-    if (signatureImage.src && !signatureImage.complete) {
-      await new Promise((resolve) => {
-        signatureImage.onload = resolve;
-        signatureImage.onerror = resolve;
-      });
-    }
+    // html2canvas로 사직서 캡처 (signatureImage <img> 는 숨기고 캡처)
     const resultCanvas = await html2canvas(letterEl, {
       backgroundColor: '#FFFEF5',
       scale: 2,
       useCORS: true,
       allowTaint: true,
-      logging: false
+      logging: false,
+      ignoreElements: (el) => el.id === 'signatureImage'
     });
+
+    // 서명이 있으면 직접 합성
+    if (hasDrawn) {
+      const scale = 2;
+      const letterRect = letterEl.getBoundingClientRect();
+      const sigImgRect = signatureImage.getBoundingClientRect();
+
+      const x = (sigImgRect.left - letterRect.left) * scale;
+      const y = (sigImgRect.top - letterRect.top) * scale;
+      const w = sigImgRect.width * scale;
+      const h = sigImgRect.height * scale;
+
+      const resultCtx = resultCanvas.getContext('2d');
+      // 서명 캔버스를 결과 이미지에 직접 그림
+      resultCtx.drawImage(sigCanvasEl, x, y, w, h);
+    }
+
     return resultCanvas;
   } catch (err) {
     console.error('html2canvas error:', err);
