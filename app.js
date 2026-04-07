@@ -496,13 +496,21 @@ function showToast(message) {
 async function captureLetterImage() {
   const letterEl = document.getElementById('resignationLetter');
   try {
-    const canvas = await html2canvas(letterEl, {
+    // 서명 이미지가 완전히 로드될 때까지 기다림
+    if (signatureImage.src && !signatureImage.complete) {
+      await new Promise((resolve) => {
+        signatureImage.onload = resolve;
+        signatureImage.onerror = resolve;
+      });
+    }
+    const resultCanvas = await html2canvas(letterEl, {
       backgroundColor: '#FFFEF5',
       scale: 2,
       useCORS: true,
+      allowTaint: true,
       logging: false
     });
-    return canvas;
+    return resultCanvas;
   } catch (err) {
     console.error('html2canvas error:', err);
     return null;
